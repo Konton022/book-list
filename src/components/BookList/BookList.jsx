@@ -15,8 +15,13 @@ const BookList = () => {
 
 	function handleEdit(id){
 		setOpenModal(!openModal)
-		console.log('id', id);
+		// console.log('id', id);
 		setId(id)
+	}
+
+	function handleDel(id){
+		const currentBooks = valueBooks.filter(item => item.id !== id)
+		setValueBooks(currentBooks)
 	}
 
 
@@ -30,7 +35,7 @@ const BookList = () => {
 						<Col sm={3}>{item.author}</Col>
 						<Col sm={6}>{item.book}</Col>
 						<Col sm={1}><Button variant="secondary" size="sm" onClick={()=> handleEdit(item.id)}>Edit</Button></Col>
-						<Col sm={1}><Button variant="secondary" size="sm">Del</Button></Col>
+						<Col sm={1}><Button variant="secondary" size="sm" onClick={()=>handleDel(item.id)}>Del</Button></Col>
 
 					</Row>
 			</ListGroup.Item>)} )}
