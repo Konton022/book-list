@@ -1,21 +1,44 @@
 import React, { useContext } from 'react';
 import { useState, useEffect } from 'react';
+import { nanoid } from 'nanoid';
 import { Form, Row, Col, FloatingLabel, Button } from 'react-bootstrap';
 import { BooksContext } from '../../contexts/BooksContext';
+import { IdContext } from '../../contexts/idContext';
 
 
 const BookForm = ({typeForm}) => {
 	const {valueBooks, setValueBooks} = useContext(BooksContext)
+	const {id: currentId , setId} = useContext(IdContext)
 	const [author, setAuthor] = useState('')
 	const [book, setBook] = useState('');
 	//const [bookState, setBookState] = useState([])
 	
 	const handleSubmit = (event) => {
 		event.preventDefault()
-		setValueBooks([...valueBooks, {author, book}])
+		const id = nanoid(4)
+		switch (typeForm) {
+			case "Add Book":
+				
+				setValueBooks([...valueBooks, {author, book, id}])
 
-		setAuthor('')
-		setBook('')
+				setAuthor('')
+				setBook('')
+				break;
+			case "Edit Book":
+				const editBook = valueBooks.filter(item => item.id === currentId)
+				console.log('editBook', editBook);
+
+				const currentBooks = valueBooks.filter(item => item.id !== currentId)
+				setValueBooks([...currentBooks, {author, book, id}])
+				setAuthor('')
+				setBook('')
+
+
+				break;
+			default:
+				break;
+		}
+		
 	}
 
 	useEffect(()=>{
